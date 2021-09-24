@@ -1,4 +1,4 @@
-# XXXXXXXXXX Module for SRE's 
+# Elasticsearch Module for SRE's 
 
 # Features by Default
 
