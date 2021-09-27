@@ -1,5 +1,23 @@
-resource "aws_cloudwatch_log_group" "main" {
-  name_prefix           = format("%s-es-cluster", var.name)
+resource "aws_cloudwatch_log_group" "errors" {
+  name_prefix           = format("%s-ES_APPLICATION_LOGS-", var.name)
+  retention_in_days     = var.cloudwatch_rotation
+  tags                  = var.tags
+}
+
+resource "aws_cloudwatch_log_group" "audit" {
+  name_prefix           = format("%s-AUDIT_LOGS-", var.name)
+  retention_in_days     = var.cloudwatch_rotation
+  tags                  = var.tags
+}
+
+resource "aws_cloudwatch_log_group" "search" {
+  name_prefix           = format("%s-SEARCH_SLOW_LOGS-", var.name)
+  retention_in_days     = var.cloudwatch_rotation
+  tags                  = var.tags
+}
+
+resource "aws_cloudwatch_log_group" "index" {
+  name_prefix           = format("%s-INDEX_SLOW_LOGS-", var.name)
   retention_in_days     = var.cloudwatch_rotation
   tags                  = var.tags
 }
