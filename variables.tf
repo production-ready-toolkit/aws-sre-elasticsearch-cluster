@@ -62,6 +62,36 @@ variable "cloudwatch_rotation" {
   default       = 1
 }
 
+variable "access_policy" {
+  description = "IAM policy document specifying the access policies for the domain."
+  type        = string
+  default     = null
+}
+
+variable "custom_domain" {
+  description = "Support for a custom DNS domain for cluster"
+  type        = string
+  default     = null 
+}
+
+variable "enforce_https" {
+  description = "Only HTTPS"
+  type        = bool 
+  default     = true
+}
+
+variable "custom_domain_acm_certificate" {
+  description = "ACM certificate ARN for your custom endpoint"
+  type        = string
+  default     = null
+}
+
+variable "tls_security_policy" {
+  description = "ame of the TLS security policy that needs to be applied to the HTTPS endpoint. Valid values: Policy-Min-TLS-1-0-2019-07 and Policy-Min-TLS-1-2-2019-07"
+  type        = string
+  default     = "Policy-Min-TLS-1-2-2019-07"
+}
+
 variable "tags" {
     type    = map(any)
     default = {}

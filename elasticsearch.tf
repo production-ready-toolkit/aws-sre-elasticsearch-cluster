@@ -13,7 +13,6 @@ resource "aws_elasticsearch_domain" "main" {
 
   }
 
-
   vpc_options {
     subnet_ids = var.subnets
 
@@ -41,14 +40,33 @@ resource "aws_elasticsearch_domain" "main" {
       volume_type = "gp2"
   }
 
-
   log_publishing_options {
       enabled = true
-      cloudwatch_log_group_arn = aws_cloudwatch_log_group.main.arn
+      cloudwatch_log_group_arn = aws_cloudwatch_log_group.errors.arn
       log_type = "ES_APPLICATION_LOGS"
   }
 
-  #   access_policies = ""
+  log_publishing_options {
+      enabled = true
+      cloudwatch_log_group_arn = aws_cloudwatch_log_group.search.arn
+      log_type = "SEARCH_SLOW_LOGS"
+  }
+
+  log_publishing_options {
+      enabled = true
+      cloudwatch_log_group_arn = aws_cloudwatch_log_group.index.arn
+      log_type = "INDEX_SLOW_LOGS"
+  }
+
+  domain_endpoint_options {
+      enforce_https = var.enforce_https
+
+      custom_endpoint_enabled = var.custom_domain != null ? true : false
+      custom_endpoint         = var.custom_domain
+      tls_security_policy     = var.tls_security_policy
+  } 
+
+    access_policies = var.access_policy == null ? data.template_file.access_policy.rendered : var.access_policy
 
   tags = var.tags
 
